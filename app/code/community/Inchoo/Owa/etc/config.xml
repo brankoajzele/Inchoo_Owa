@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Branko Ajzele <ajzele@gmail.com>
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Inchoo_Owa>
+            <version>1.0.0.0.0.0</version>
+        </Inchoo_Owa>
+    </modules>    
+    <global>
+        <blocks>
+            <inchoo_owa>
+                <class>Inchoo_Owa_Block</class>
+            </inchoo_owa>
+        </blocks>
+        <helpers>
+            <inchoo_owa>
+                <class>Inchoo_Owa_Helper</class>
+            </inchoo_owa>
+        </helpers>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <inchoo_owa>
+                    <file>inchoo_owa.xml</file>
+                </inchoo_owa>
+            </updates>
+        </layout>
+    </frontend>       
+</config>
