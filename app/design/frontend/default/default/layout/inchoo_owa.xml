@@ -10,5 +10,17 @@
         <reference name="head">
             <block type="inchoo_owa/tracking_tag" name="inchoo_owa_tracking_tag" template="inchoo/owa/tracking/tag.phtml"/>
         </reference>
-    </default>    
+    </default> 
+    
+    <checkout_onepage_success>
+        <reference name="inchoo_owa_tracking_tag">
+            <block type="inchoo_owa/tracking_checkout_success" name="inchoo_owa_tracking_checkout_success" template="inchoo/owa/tracking/checkout/success.phtml" />
+        </reference>
+    </checkout_onepage_success>
+    
+    <checkout_multishipping_success>
+        <reference name="inchoo_owa_tracking_tag">
+            <block type="inchoo_owa/tracking_checkout_success" name="inchoo_owa_tracking_checkout_success" template="inchoo/owa/tracking/checkout/success.phtml" />
+        </reference>
+    </checkout_multishipping_success>          
 </layout>

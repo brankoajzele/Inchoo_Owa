@@ -1,0 +1,32 @@
+<?php
+    $_order = Mage::getModel('sales/order')->loadByIncrementId(Mage::getSingleton('checkout/session')->getLastRealOrderId());
+    $_orderItems = $_order->getAllItems();
+?>
+owa_cmds.push(['addTransaction', 
+    '<?php echo $_order->getIncrementId() ?>', // the id of the order, comes from your ecommerce system -required
+    <?php echo json_encode(Mage::app()->getStore()->getName()) ?>,  // the source or store name that originated the transaction
+    <?php echo round($_order->getBaseGrandTotal(), 2) ?>, // the total amount of revenue - required
+    <?php echo round($_order->getBaseTaxAmount(), 2) ?>, // amount of tax
+    <?php echo round($_order->getBaseShippingAmount(), 2) ?>,  // amount of shipping
+    <?php echo json_encode($_order->getPayment()->getMethodInstance()->getTitle()) ?>, // transaction gateway name
+    <?php echo json_encode(Mage::getModel('directory/country')->loadByCode($_order->getShippingAddress()->getCountry())->getName()) ?>, // country
+    <?php echo json_encode($_order->getShippingAddress()->getState()) ?>, //state
+    <?php echo json_encode($_order->getShippingAddress()->getCity()) ?> //city
+]);
+<?php foreach ($_orderItems as $_item): ?>   
+<?php 
+
+$product = Mage::getModel('catalog/product')->load($_item->getProductId());
+
+$cats = $product->getCategoryIds();
+$_cats = array();
+
+foreach ($cats as $category_id) {
+    $_cat = Mage::getModel('catalog/category')->load($category_id) ;
+    $_cats[] = $_cat->getName();
+}
+
+?>
+owa_cmds.push(['addTransactionLineItem', '<?php echo $_order->getIncrementId() ?>', <?php echo json_encode($_item->getSku()) ?>, <?php echo json_encode($_item->getName()) ?>, <?php echo json_encode(implode(',', $_cats)) ?>, <?php echo round($_item->getPrice(), 2) ?>, <?php echo (int)$_item->getQtyOrdered() ?>]);
+<?php endforeach; ?>
+owa_cmds.push(['trackTransaction']);
